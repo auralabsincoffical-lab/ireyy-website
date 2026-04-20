@@ -16,7 +16,17 @@
     *::after {
       margin: 0;
       padding: 0;
-      box-sizing: border-box
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Force inherited fonts on form elements */
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+      line-height: inherit;
+      color: inherit;
     }
 
     :root {
@@ -56,8 +66,9 @@
       overflow-x: clip !important;
       background: var(--bg);
       color: var(--dark);
-      font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
+      -webkit-text-size-adjust: 100%;
       position: relative;
     }
 
@@ -78,7 +89,7 @@
     h1,
     h2,
     h3 {
-      font-family: 'Space Grotesk', inherit;
+      font-family: 'Space Grotesk', "Inter", sans-serif;
       font-weight: 700;
       letter-spacing: -.05em;
       line-height: 1.05;
