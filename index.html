@@ -1414,6 +1414,15 @@
       .sec-marquee {
         padding: 30px 0;
       }
+
+      .aura-container {
+        display: none !important;
+      }
+
+      .sec {
+        backdrop-filter: blur(15px) saturate(180%) brightness(1.04) !important;
+        -webkit-backdrop-filter: blur(15px) saturate(180%) brightness(1.04) !important;
+      }
     }
 
     /* bottom-bar push so footer not hidden */
@@ -1717,6 +1726,15 @@
         section.style.transform = `scale(${scale}) translateZ(0)`;
         section.style.opacity = `${opacity}`;
         section.style.filter = blur > 0 ? `blur(${blur}px)` : 'none';
+        
+        // VISIBILITY CULLING: Hide section if completely covered to save GPU resources
+        if (progress >= 0.98) {
+          section.style.visibility = 'hidden';
+          section.style.pointerEvents = 'none';
+        } else {
+          section.style.visibility = 'visible';
+          section.style.pointerEvents = 'auto';
+        }
       });
     }
 
@@ -1958,6 +1976,8 @@
       }
       
       function animateCtaCanvas() {
+        if (!isCtaVisible) return;
+        
         ctaCtx.clearRect(0, 0, cw, ch);
         ctaCtx.globalCompositeOperation = 'screen';
         
@@ -1996,10 +2016,16 @@
         requestAnimationFrame(animateCtaCanvas);
       }
       
+      const ctaObserver = new IntersectionObserver((entries) => {
+        isCtaVisible = entries[0].isIntersecting;
+        if (isCtaVisible) animateCtaCanvas();
+      }, { threshold: 0.05 });
+      
+      let isCtaVisible = false;
       window.addEventListener('resize', initCtaCanvas);
       setTimeout(() => {
         initCtaCanvas();
-        animateCtaCanvas();
+        ctaObserver.observe(ctaCanvas);
       }, 500);
     }
   </script>
