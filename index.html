@@ -337,6 +337,8 @@
       filter: blur(120px);
       opacity: 1;
       background: var(--bg);
+      backface-visibility: hidden;
+      transform: translateZ(0);
     }
 
     .aura-blob {
@@ -347,6 +349,8 @@
       transition: transform 1.8s cubic-bezier(0.23, 1, 0.32, 1);
       opacity: 1.0;
       animation: auraSpin 20s linear infinite, colorCycle 25s linear infinite;
+      backface-visibility: hidden;
+      transform: translateZ(0);
     }
 
     @keyframes auraSpin {
@@ -568,6 +572,9 @@
       z-index: 2;
       transition: border-radius 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
       transform-origin: center top;
+      backface-visibility: hidden;
+      transform: translateZ(0);
+      will-change: transform, opacity;
     }
 
     .sec.detached {
@@ -1258,6 +1265,8 @@
 
       .sec .container {
         padding-bottom: 160px; /* Clear above the floating contact pill */
+        backface-visibility: hidden !important;
+        transform: translateZ(0) !important;
       }
 
       .sec.detached {
@@ -1698,13 +1707,16 @@
         progress = Math.max(0, Math.min(1, progress));
 
         // Apply transformations to the CURRENT section being covered
-        const scale = 1 - (progress * 0.1); // Scale from 1 to 0.9
-        const opacity = 1 - (progress * 0.5); // Opacity from 1 to 0.5
-        const blur = progress * 10; // Blur from 0 to 10px
+        // Mobile optimization: Skip blur and reduce intensity
+        const isMobile = window.innerWidth < 900;
+        
+        const scale = isMobile ? (1 - (progress * 0.05)) : (1 - (progress * 0.1)); 
+        const opacity = isMobile ? (1 - (progress * 0.35)) : (1 - (progress * 0.5)); 
+        const blur = isMobile ? 0 : (progress * 10); 
 
-        section.style.transform = `scale(${scale})`;
+        section.style.transform = `scale(${scale}) translateZ(0)`;
         section.style.opacity = `${opacity}`;
-        section.style.filter = `blur(${blur}px)`;
+        section.style.filter = blur > 0 ? `blur(${blur}px)` : 'none';
       });
     }
 
@@ -1842,6 +1854,9 @@
     });
 
     function updateAura() {
+      // Mobile optimization: Disable JS updates for background elements
+      if (window.innerWidth < 900) return;
+
       // Smooth interpolation for mouse position
       mouseX += (targetX - mouseX) * 0.05;
       mouseY += (targetY - mouseY) * 0.05;
