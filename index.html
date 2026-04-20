@@ -626,6 +626,71 @@
       font-style: italic;
     }
 
+    .reasons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--faint)
+    }
+
+    .reason {
+      padding: 48px 40px;
+      border-right: 1px solid var(--faint);
+      transition: all .4s cubic-bezier(.4, 0, .2, 1);
+      position: relative;
+    }
+
+    .reason-t {
+      font-family: 'Space Grotesk', inherit;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--dark);
+      margin-bottom: 24px;
+      text-transform: lowercase;
+      letter-spacing: -0.04em;
+    }
+
+    .reason-d {
+      font-family: 'Inter', inherit;
+      font-size: .88rem;
+      color: var(--mid);
+      line-height: 1.78;
+      margin-bottom: 32px;
+    }
+
+    .reason-arrow {
+      font-family: 'Inter', inherit;
+      font-size: .65rem;
+      font-weight: 600;
+      letter-spacing: .15em;
+      color: var(--dark);
+      opacity: 0.4;
+      display: block;
+    }
+
+    /* ═══ FOOTER ═══ */
+    footer {
+      padding: 100px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-lighter);
+      border-top: 1px solid var(--faintest);
+      position: relative;
+      z-index: 10;
+    }
+
+    .foot-logo {
+      font-family: 'Space Grotesk', inherit;
+      font-weight: 800;
+      font-size: 1.4rem;
+      letter-spacing: -.03em;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--dark);
+    }
+
     .sec-label::before {
       content: '';
       width: 30px;
