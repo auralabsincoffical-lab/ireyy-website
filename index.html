@@ -2465,9 +2465,9 @@
         const isMobile = window.innerWidth < 900;
         const isWhat = section.id === 'what';
 
-        // Different intensity for #what - gentler fade on mobile to keep text readable
+        // Different intensity for #what - much gentler fade to keep frosted appearance
         const scale = isMobile ? (1 - (progress * 0.05)) : (1 - (progress * 0.1));
-        const opacityMultiplier = isWhat ? (isMobile ? 0.15 : 0.35) : (isMobile ? 0.35 : 0.5);
+        const opacityMultiplier = isWhat ? (isMobile ? 0.05 : 0.2) : (isMobile ? 0.35 : 0.5);
         const opacity = 1 - (progress * opacityMultiplier);
         const blur = isMobile ? 0 : (progress * 10);
 
