@@ -1331,11 +1331,11 @@
     }
 
     #what {
-      z-index: 2;
+      z-index: 3;
     }
 
     #services {
-      z-index: 3;
+      z-index: 2;
     }
 
     #how {
@@ -2463,11 +2463,10 @@
         // Apply transformations to the CURRENT section being covered
         // Mobile optimization: Skip blur and reduce intensity
         const isMobile = window.innerWidth < 900;
-        const isWhat = section.id === 'what';
 
-        // Different intensity for #what - much gentler fade to keep frosted appearance
+        // Standard card intensity for all sections
         const scale = isMobile ? (1 - (progress * 0.05)) : (1 - (progress * 0.1));
-        const opacityMultiplier = isWhat ? (isMobile ? 0.05 : 0.2) : (isMobile ? 0.35 : 0.5);
+        const opacityMultiplier = isMobile ? 0.35 : 0.5;
         const opacity = 1 - (progress * opacityMultiplier);
         const blur = isMobile ? 0 : (progress * 10);
 
