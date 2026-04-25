@@ -2463,10 +2463,12 @@
         // Apply transformations to the CURRENT section being covered
         // Mobile optimization: Skip blur and reduce intensity
         const isMobile = window.innerWidth < 900;
+        const isWhat = section.id === 'what';
 
-        // Same animation for all sections including #what
+        // Different intensity for #what - gentler fade on mobile to keep text readable
         const scale = isMobile ? (1 - (progress * 0.05)) : (1 - (progress * 0.1));
-        const opacity = isMobile ? (1 - (progress * 0.35)) : (1 - (progress * 0.5));
+        const opacityMultiplier = isWhat ? (isMobile ? 0.15 : 0.35) : (isMobile ? 0.35 : 0.5);
+        const opacity = 1 - (progress * opacityMultiplier);
         const blur = isMobile ? 0 : (progress * 10);
 
         section.style.transform = `scale(${scale}) translateZ(0)`;
