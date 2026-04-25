@@ -2463,9 +2463,13 @@
         // Apply transformations to the CURRENT section being covered
         // Mobile optimization: Skip blur and reduce intensity
         const isMobile = window.innerWidth < 900;
+        const isWhat = section.id === 'what';
 
+        // Different intensity for #what section - gentler fade to keep text readable
         const scale = isMobile ? (1 - (progress * 0.05)) : (1 - (progress * 0.1));
-        const opacity = isMobile ? (1 - (progress * 0.35)) : (1 - (progress * 0.5));
+        // #what gets much gentler opacity reduction (0.2 instead of 0.5 on desktop, 0.1 instead of 0.35 on mobile)
+        const opacityMultiplier = isWhat ? (isMobile ? 0.15 : 0.25) : (isMobile ? 0.35 : 0.5);
+        const opacity = 1 - (progress * opacityMultiplier);
         const blur = isMobile ? 0 : (progress * 10);
 
         section.style.transform = `scale(${scale}) translateZ(0)`;
@@ -2473,7 +2477,9 @@
         section.style.filter = blur > 0 ? `blur(${blur}px)` : 'none';
 
         // VISIBILITY CULLING: Hide section if completely covered to save GPU resources
-        if (progress >= 0.98) {
+        // #what hides later since it has gentler animation
+        const hideThreshold = isWhat ? 0.95 : 0.98;
+        if (progress >= hideThreshold) {
           section.style.visibility = 'hidden';
           section.style.pointerEvents = 'none';
         } else {
